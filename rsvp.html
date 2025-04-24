@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Xác nhận tham dự - Đặng Duy Trang & Thanh Thanh</title>
+    <title>Xác nhận tham dự - Đặng Văn Thuận & Trần Thị Khánh Quỳnh</title>
     <style>
       * {
         margin: 0;
@@ -111,6 +111,63 @@
         color: #ff4b6a;
       }
 
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        position: relative;
+      }
+
+      .modal-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .modal-message {
+        margin-bottom: 20px;
+        color: #666;
+      }
+
+      .modal-button {
+        background-color: #ff4b6a;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .modal-button:hover {
+        background-color: #ff3557;
+      }
+
+      .success {
+        color: #28a745;
+      }
+
+      .error {
+        color: #dc3545;
+      }
+
       @media (max-width: 480px) {
         .container {
           padding: 20px;
@@ -122,6 +179,11 @@
 
         .couple-names {
           font-size: 18px;
+        }
+
+        .modal-content {
+          width: 95%;
+          padding: 20px;
         }
       }
     </style>
@@ -145,12 +207,73 @@
         placeholder="Nhập Tên, Số Điện thoại hoặc Mã Khách Mời"
         aria-label="Type your Name, Phone Number or Code"
       />
-      <button class="search-button">
-        Tìm kiếm thiệp mời của bạn
-        <br />
-        <small>Find Your Invitation</small>
+      <button class="search-button" onclick="validateInput()">
+        Xác nhận tham dự
       </button>
-      <a href="thiepcuoi.html" class="back-link">← Về website đám cưới</a>
+      <a href="index.html" class="back-link">← Về website đám cưới</a>
     </div>
+
+    <!-- Modal -->
+    <div class="modal" id="resultModal">
+      <div class="modal-content">
+        <h3 class="modal-title" id="modalTitle"></h3>
+        <p class="modal-message" id="modalMessage"></p>
+        <button class="modal-button" onclick="closeModal()">Đóng</button>
+      </div>
+    </div>
+
+    <script>
+      function validateInput() {
+        const input = document.querySelector(".input-field").value.trim();
+        const phoneRegex =
+          /^(0|\+84|84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-9]|9[0-9])[0-9]{7}$/;
+
+        if (phoneRegex.test(input.replace(/\s/g, ""))) {
+          showModal(
+            "Xác nhận thành công!",
+            "Cảm ơn bạn đã xác nhận tham dự đám cưới của chúng tôi.",
+            true
+          );
+        } else {
+          showModal(
+            "Xác nhận thất bại!",
+            "Vui lòng kiểm tra lại số điện thoại của bạn.",
+            false
+          );
+        }
+      }
+
+      function showModal(title, message, isSuccess) {
+        const modal = document.getElementById("resultModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalMessage = document.getElementById("modalMessage");
+
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+
+        modalTitle.className =
+          "modal-title " + (isSuccess ? "success" : "error");
+        modal.style.display = "flex";
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("resultModal");
+        modal.style.display = "none";
+        if (
+          document.querySelector(".modal-title").classList.contains("success")
+        ) {
+          document.querySelector(".input-field").value = "";
+          window.location.href = "index.html";
+        }
+      }
+
+      // Close modal when clicking outside
+      window.onclick = function (event) {
+        const modal = document.getElementById("resultModal");
+        if (event.target == modal) {
+          closeModal();
+        }
+      };
+    </script>
   </body>
 </html>

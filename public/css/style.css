@@ -2465,6 +2465,24 @@ img {
   top: 0;
 }
 
+.swiper-slide .img-holder-hideinmobile {
+  display: block !important;
+}
+
+.swiper-slide .img-show-hideinmobile {
+  display: none !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .swiper-slide .img-holder-hideinmobile {
+    display: none !important;
+  }
+
+  .swiper-slide .img-show-hideinmobile {
+    display: block !important;
+  }
+}
+
 .hero-slider .swiper-container {
   width: 100%;
   height: 100%;
